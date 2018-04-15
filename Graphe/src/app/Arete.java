@@ -20,94 +20,19 @@ public class Arete extends Line {
 		this.B.incrementerDegre();
 		this.A.ajouterArete(this);
 		this.B.ajouterArete(this);
-		this.afficheStartXProperty=new DoubleBinding() {
-			{
-			bind(s.centerXProperty(),s.radiusProperty(),s.centerYProperty(),
-					t.centerXProperty(),t.centerYProperty(),t.radiusProperty());
-			}
-			@Override
-			protected double computeValue() {
-				double sx=s.centerXProperty().getValue();
-				double sy=s.centerYProperty().getValue();
-				double sr=s.radiusProperty().getValue();
-				double tx=t.centerXProperty().getValue();
-				double ty=t.centerYProperty().getValue();
-				double norme=Math.sqrt(Math.pow(sx-tx,2)+Math.pow(sy-ty, 2));
-				return sx+sr*(tx-sx)/norme+sr;
-			}
-			
-		};
-		this.afficheStartYProperty=new DoubleBinding() {
-
-			{
-				bind(s.centerXProperty(),s.radiusProperty(),s.centerYProperty(),
-						t.centerXProperty(),t.centerYProperty(),t.radiusProperty());
-				}
-			@Override
-			protected double computeValue() {
-			
-				double sx=s.centerXProperty().getValue();
-				double sy=s.centerYProperty().getValue();
-				double sr=s.radiusProperty().getValue();
-				double tx=t.centerXProperty().getValue();
-				double ty=t.centerYProperty().getValue();
-				double norme=Math.sqrt(Math.pow(sx-tx,2)+Math.pow(sy-ty, 2));
-				return sy+sr*(ty-sy)/norme+sr;
-			}
-			
-		};
 		
-		this.afficheEndXProperty=new DoubleBinding() {
-			{
-			bind(s.centerXProperty(),s.radiusProperty(),s.centerYProperty(),
-					t.centerXProperty(),t.centerYProperty(),t.radiusProperty());
-			}
-			@Override
-			protected double computeValue() {
-				double sx=s.centerXProperty().getValue();
-				double sy=s.centerYProperty().getValue();
-				double sr=s.radiusProperty().getValue();
-				double tx=t.centerXProperty().getValue();
-				double ty=t.centerYProperty().getValue();
-				double norme=Math.sqrt(Math.pow(sx-tx,2)+Math.pow(sy-ty, 2));
-				return tx-sr*(tx-sx)/norme+sr;
-			}
-			
-		};
-		this.afficheEndYProperty=new DoubleBinding() {
-
-			{
-				bind(s.centerXProperty(),s.radiusProperty(),s.centerYProperty(),
-						t.centerXProperty(),t.centerYProperty(),t.radiusProperty());
-				}
-			@Override
-			protected double computeValue() {
-			
-				double sx=s.centerXProperty().getValue();
-				double sy=s.centerYProperty().getValue();
-				double sr=s.radiusProperty().getValue();
-				double tx=t.centerXProperty().getValue();
-				double ty=t.centerYProperty().getValue();
-				double norme=Math.sqrt(Math.pow(sx-tx,2)+Math.pow(sy-ty, 2));
-				return ty-sr*(ty-sy)/norme+sr;
-			}
-			
-		};
+		this.afficheStartXProperty=new AreteBinding(s,t,'X');
+		this.afficheStartYProperty=new AreteBinding(s,t,'Y');
+		this.afficheEndXProperty=new AreteBinding(t,s,'X');
+		this.afficheEndYProperty=new AreteBinding(t,s,'Y');
+		
+		
+		
 	}
 	
 	
 	public void dessiner(Pane p) {
 		
-			/*this.startXProperty().bind(this.A.centerXProperty().add(this.A.radiusProperty()));
-			
-			this.startYProperty().bind(this.A.centerYProperty().add(this.A.radiusProperty()));
-					
-			this.endXProperty().bind(this.B.centerXProperty().add(this.A.radiusProperty()));
-					
-			this.endYProperty().bind(this.B.centerYProperty().add(this.A.radiusProperty()));*/
-			
-			//pour essayer de ne pas dessiner la partie de l'arête qui intersecte le sommet
-			//ça ne marche pas
 			this.startXProperty().bind(afficheStartXProperty);
 			this.startYProperty().bind(afficheStartYProperty);
 			this.endXProperty().bind(afficheEndXProperty);
